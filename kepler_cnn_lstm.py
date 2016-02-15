@@ -4,13 +4,12 @@ classification task.
 GPU command:
     THEANO_FLAGS=mode=FAST_RUN,device=gpu,floatX=float32 python imdb_cnn_lstm.py
 
-Get to 0.8498 test accuracy after 2 epochs. 41s/epoch on K520 GPU.
 '''
 
 from __future__ import print_function
 import numpy as np
 import pandas as pd
-np.random.seed(1337)  # for reproducibility
+#np.random.seed(1337)  # for reproducibility
 
 from keras.preprocessing import sequence
 from keras.models import Sequential
