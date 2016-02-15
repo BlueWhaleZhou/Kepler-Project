@@ -27,7 +27,7 @@ embedding_size = 128
 
 # Convolution
 filter_length = 3
-nb_filter = 64
+nb_filter = 64 #Number of convolution kernels to use (dimensionality of the output)
 pool_length = 2
 
 # LSTM
