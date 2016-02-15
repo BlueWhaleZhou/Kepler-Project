@@ -20,34 +20,30 @@ from keras.layers.convolutional import Convolution1D, MaxPooling1D
 from keras.datasets import imdb
 
 
-# Embedding
+# Embedding: Turn positive integers (indexes) into dense vectors of fixed size
 max_features = 50000
 maxlen = 100
 embedding_size = 128
 
 # Convolution
-filter_length = 3
+filter_length = 3 #The extension (spatial or temporal) of each filter
 nb_filter = 64 #Number of convolution kernels to use (dimensionality of the output)
-pool_length = 2
+pool_length = 2 # factor by which to downscale. 2 will halve the input.
 
 # LSTM
 lstm_output_size = 70
 
 # Training
-batch_size = 32
+batch_size = 32 # # of samples used to compute the state, input at one time.
 nb_epoch = 50
 
-'''
-Note:
-batch_size is highly sensitive.
-Only 2 epochs are needed as the dataset is very small.
-'''
 print('Loading data...')
 data_file1 = "x-3d4hr_0210_training_nor.csv"
 data_file2 = "x-3d4hr_0210_testing_nor.csv"
 data_file3 = "y-3d4hr_0210_training.csv"
 data_file4 = "y-3d4hr_0210_testing.csv"
 
+# data loading
 X_train = pd.read_csv(data_file1, delimiter=',', error_bad_lines=False, header=None)
 X_train = X_train.as_matrix()
 
@@ -87,12 +83,12 @@ model.add(Convolution1D(nb_filter=nb_filter,
                         border_mode='valid',
                         activation='relu',
                         subsample_length=1))
-model.add(MaxPooling1D(pool_length=pool_length))
+model.add(MaxPooling1D(pool_length=pool_length)) #Max pooling operation for temporal data
 model.add(LSTM(lstm_output_size))
-model.add(Dense(1))
+model.add(Dense(1)) #regular fully connected NN layer, the output dimension is one
 model.add(Activation('sigmoid'))
 
-model.compile(loss='binary_crossentropy',
+model.compile(loss='binary_crossentropy',  # configure the learning process after the model is built well.
               optimizer='adam',
               class_mode='binary')
 
