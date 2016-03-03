@@ -22,24 +22,40 @@ max_features = 5000
 maxlen = 100
 batch_size = 32
 embedding_dims = 100
-nb_filter = 250
-filter_length = 3
+#nb_filter = 250
+#filter_length = 3
 hidden_dims = 250
-nb_epoch = 2
+nb_epoch = 10
 
 print('Loading data...')
-(X_train, y_train), (X_test, y_test) = imdb.load_data(nb_words=max_features,
-                                                      test_split=0.2)
+data_file1 = "x-3d4hr_0210_training_nor.csv"
+data_file2 = "x-3d4hr_0210_testing_nor.csv"
+data_file3 = "y-3d4hr_0210_training.csv"
+data_file4 = "y-3d4hr_0210_testing.csv"
+
+# data loading
+X_train = pd.read_csv(data_file1, delimiter=',', error_bad_lines=False, header=None)
+X_train = X_train.as_matrix()
+
+y_train = pd.read_csv(data_file3, delimiter=',', error_bad_lines=False, header=None)
+y_train = y_train.as_matrix()
+
+X_test = pd.read_csv(data_file2, delimiter=',', error_bad_lines=False, header=None)
+X_test = X_test.as_matrix()
+
+y_test = pd.read_csv(data_file4, delimiter=',', error_bad_lines=False, header=None)
+y_test = y_test.as_matrix()
+
 print(len(X_train), 'train sequences')
 print(len(X_test), 'test sequences')
 print(y_train)
 print(y_test)
 
-char = input("...")	
+#char = input("...")	
 	
-print('Pad sequences (samples x time)')
-X_train = sequence.pad_sequences(X_train, maxlen=maxlen)
-X_test = sequence.pad_sequences(X_test, maxlen=maxlen)
+#print('Pad sequences (samples x time)')
+#X_train = sequence.pad_sequences(X_train, maxlen=maxlen)
+#X_test = sequence.pad_sequences(X_test, maxlen=maxlen)
 print('X_train shape:', X_train.shape)
 print('X_test shape:', X_test.shape)
 
@@ -66,10 +82,14 @@ model.add(MaxPooling1D(pool_length=2))
 model.add(Flatten())
 
 # We add a vanilla hidden layer:
-model.add(Dense(hidden_dims))
+#model.add(Dense(hidden_dims))
+#model.add(Dropout(0.25))
+#model.add(Activation('relu'))
+
+#two FC layers
+model.add(Dense(256))
 model.add(Dropout(0.25))
 model.add(Activation('relu'))
-
 # We project onto a single unit output layer, and squash it with a sigmoid:
 model.add(Dense(1))
 model.add(Activation('sigmoid'))
