@@ -18,13 +18,13 @@ from keras.layers.convolutional import Convolution1D, MaxPooling1D
 
 
 # set parameters:
-max_features = 50000
-maxlen = 100
+#max_features = 50000
+#maxlen = 100
 batch_size = 32
-embedding_dims = 100
+#embedding_dims = 100
 #nb_filter = 250
 #filter_length = 3
-hidden_dims = 250
+#hidden_dims = 250
 nb_epoch = 10
 
 print('Loading data...')
@@ -69,20 +69,23 @@ model.add(Convolution1D(nb_filter=32,
                         border_mode='valid',
                         activation='relu',
                         subsample_length=1))
-# we use standard max pooling (halving the output of the previous layer):
-#model.add(MaxPooling1D(pool_length=2))
+                        
+model.add(Convolution1D(nb_filter=64,
+                        filter_length=3,
+                        border_mode='valid',
+                        activation='relu',
+                        subsample_length=1))
+                        
+model.add(MaxPooling1D(pool_length=2))
 
 model.add(Convolution1D(nb_filter=64,
                         filter_length=3,
                         border_mode='valid',
                         activation='relu',
                         subsample_length=1))
+                        
 model.add(MaxPooling1D(pool_length=2))
-model.add(Convolution1D(nb_filter=64,
-                        filter_length=3,
-                        border_mode='valid',
-                        activation='relu',
-                        subsample_length=1))
+
 # We flatten the output of the conv layer,
 # so that we can add a vanilla dense layer:
 model.add(Flatten())
