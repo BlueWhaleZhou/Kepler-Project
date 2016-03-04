@@ -7,11 +7,13 @@ Get to 0.835 test accuracy after 2 epochs. 100s/epoch on K520 GPU.
 
 from __future__ import print_function
 import numpy as np
+from numpy import newaxis
 #np.random.seed(1337)  # for reproducibility
-
+import pandas as pd
 from keras.preprocessing import sequence
 from keras.models import Sequential
 from keras.layers.core import Dense, Dropout, Activation, Flatten
+from keras.optimizers import SGD
 #from keras.layers.embeddings import Embedding
 from keras.layers.convolutional import Convolution1D, MaxPooling1D
 #from keras.datasets import imdb
@@ -25,22 +27,30 @@ batch_size = 32
 #nb_filter = 250
 #filter_length = 3
 #hidden_dims = 250
+input_length=100
 nb_epoch = 10
 
 print('Loading data...')
 data_file1 = "x_0303_training_new.txt"
 data_file2 = "x_0303_testing_new.txt"
-data_file3 = "y_0303_training.txt"
-data_file4 = "y_0303_testing.txt"
+data_file3 = "y_0303_training.csv"
+data_file4 = "y_0303_testing.csv"
 
 # data loading
 X_train = np.loadtxt(data_file1, delimiter=',')
+X_train = X_train[:, :, newaxis]
 print(X_train.shape)
-y_train = np.loadtxt(data_file3, delimiter=',')
+
+y_train = pd.read_csv(data_file3, delimiter=',', error_bad_lines=False, header=None)
+y_train = y_train.as_matrix()
 print(y_train.shape)
+
 X_test = np.loadtxt(data_file2, delimiter=',')
+X_test = X_test[:, :, newaxis]
 print(X_test.shape)
-y_test = np.loadtxt(data_file4, delimiter=',')
+
+y_test = pd.read_csv(data_file4, delimiter=',', error_bad_lines=False, header=None)
+y_test = y_test.as_matrix()
 print(y_test.shape)
 
 #print(y_train)
@@ -68,21 +78,19 @@ model.add(Convolution1D(nb_filter=32,
                         filter_length=5,
                         border_mode='valid',
                         activation='relu',
-                        subsample_length=1))
-                        
+						input_dim=1, 
+						input_length=input_length))                        
 model.add(Convolution1D(nb_filter=64,
                         filter_length=3,
                         border_mode='valid',
-                        activation='relu',
-                        subsample_length=1))
+                        activation='relu'))
                         
 model.add(MaxPooling1D(pool_length=2))
 
-model.add(Convolution1D(nb_filter=64,
+model.add(Convolution1D(nb_filter=96,
                         filter_length=3,
                         border_mode='valid',
-                        activation='relu',
-                        subsample_length=1))
+                        activation='sigmoid'))
                         
 model.add(MaxPooling1D(pool_length=2))
 
@@ -96,15 +104,18 @@ model.add(Flatten())
 #model.add(Activation('relu'))
 
 #two FC layers
-model.add(Dense(256))
+model.add(Dense(512))
+model.add(Activation('relu'))
+model.add(Dropout(0.25))
+model.add(Dense(512))
 model.add(Dropout(0.25))
 model.add(Activation('relu'))
 # We project onto a single unit output layer, and squash it with a sigmoid:
 model.add(Dense(1))
 model.add(Activation('sigmoid'))
-
+sgd = SGD(lr=0.0001, decay=1e-6, momentum=0.9, nesterov=True)
 model.compile(loss='binary_crossentropy',
-              optimizer='rmsprop',
+              optimizer='sgd',
               class_mode='binary')
 model.fit(X_train, y_train, batch_size=batch_size,
           nb_epoch=nb_epoch, show_accuracy=True,
