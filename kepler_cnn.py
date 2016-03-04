@@ -90,7 +90,7 @@ model.add(MaxPooling1D(pool_length=2))
 model.add(Convolution1D(nb_filter=96,
                         filter_length=3,
                         border_mode='valid',
-                        activation='sigmoid'))
+                        activation='relu'))
                         
 model.add(MaxPooling1D(pool_length=2))
 
