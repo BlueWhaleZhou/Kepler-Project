@@ -113,9 +113,9 @@ model.add(Activation('relu'))
 # We project onto a single unit output layer, and squash it with a sigmoid:
 model.add(Dense(1))
 model.add(Activation('sigmoid'))
-sgd = SGD(lr=0.0001, decay=1e-6, momentum=0.9, nesterov=True)
+#sgd = SGD(lr=0.0001, decay=1e-6, momentum=0.9, nesterov=True)
 model.compile(loss='binary_crossentropy',
-              optimizer='sgd',
+              optimizer='rmsprop',
               class_mode='binary')
 model.fit(X_train, y_train, batch_size=batch_size,
           nb_epoch=nb_epoch, show_accuracy=True,
