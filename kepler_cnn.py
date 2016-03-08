@@ -1,14 +1,6 @@
-'''This example demonstrates the use of Convolution1D for text classification.
-
-Run on GPU: THEANO_FLAGS=mode=FAST_RUN,device=gpu,floatX=float32 python imdb_cnn.py
-
-Get to 0.835 test accuracy after 2 epochs. 100s/epoch on K520 GPU.
-'''
-
 from __future__ import print_function
 import numpy as np
 from numpy import newaxis
-#np.random.seed(1337)  # for reproducibility
 import pandas as pd
 from keras.preprocessing import sequence
 from keras.models import Sequential
@@ -97,11 +89,6 @@ model.add(MaxPooling1D(pool_length=2))
 # We flatten the output of the conv layer,
 # so that we can add a vanilla dense layer:
 model.add(Flatten())
-
-# We add a vanilla hidden layer:
-#model.add(Dense(hidden_dims))
-#model.add(Dropout(0.25))
-#model.add(Activation('relu'))
 
 #two FC layers
 model.add(Dense(512))
