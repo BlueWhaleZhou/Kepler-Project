@@ -106,7 +106,7 @@ model.add(Dropout(0.25))
 model.add(Dense(256, activation('relu'))
 model.add(Dropout(0.25))
 # We project onto a single unit output layer, and squash it with a sigmoid:
-model.add(Dense(1), activation('softmax'))
+model.add(Dense(1), activation('sigmoid'))
 #sgd = SGD(lr=0.0001, decay=1e-6, momentum=0.9, nesterov=True)
 model.compile(loss='binary_crossentropy',
               optimizer='rmsprop',
