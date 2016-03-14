@@ -14,17 +14,17 @@ from keras.layers.convolutional import Convolution1D, MaxPooling1D
 # set parameters:
 #max_features = 50000
 #maxlen = 100
-batch_size = 32
+batch_size = 16
 #embedding_dims = 100
 #nb_filter = 250
 #filter_length = 3
 #hidden_dims = 250
 input_length=100
-nb_epoch = 10
+nb_epoch = 5
 
 print('Loading data...')
-data_file1 = "x_0303_training_new.txt"
-data_file2 = "x_0303_testing_new.txt"
+data_file1 = "x_0314_training_new_2.txt"
+data_file2 = "x_0314_testing_new_2.txt"
 data_file3 = "y_0303_training.csv"
 data_file4 = "y_0303_testing.csv"
 
@@ -66,13 +66,13 @@ model = Sequential()
 
 # we add a Convolution1D, which will learn nb_filter
 # word group filters of size filter_length:
-model.add(Convolution1D(nb_filter=64,
+model.add(Convolution1D(nb_filter=96,
                         filter_length=5,
                         border_mode='valid',
                         activation='relu',
-			input_dim=1, 
-			input_length=input_length))                        
-model.add(Convolution1D(nb_filter=64,
+						input_dim=1, 
+						input_length=input_length))                        
+model.add(Convolution1D(nb_filter=96,
                         filter_length=3,
                         border_mode='valid',
                         activation='relu'))
@@ -84,7 +84,7 @@ model.add(Convolution1D(nb_filter=96,
                         border_mode='valid',
                         activation='relu'))
                         
-model.add(MaxPooling1D(pool_length=2))
+#model.add(MaxPooling1D(pool_length=2))
 
 model.add(Convolution1D(nb_filter=128,
                         filter_length=3,
@@ -96,17 +96,23 @@ model.add(Convolution1D(nb_filter=128,
                         border_mode='valid',
                         activation='relu'))
 
+model.add(MaxPooling1D(pool_length=2))
+
 # We flatten the output of the conv layer,
 # so that we can add a vanilla dense layer:
 model.add(Flatten())
 
 #two FC layers
-model.add(Dense(256), activation('relu'))
+model.add(Dense(256))
+model.add(Activation('relu'))
 model.add(Dropout(0.25))
-model.add(Dense(256, activation('relu'))
+model.add(Dense(256))
 model.add(Dropout(0.25))
+model.add(Activation('relu'))
+
 # We project onto a single unit output layer, and squash it with a sigmoid:
-model.add(Dense(1), activation('sigmoid'))
+model.add(Dense(1)) 
+model.add(Activation('sigmoid'))
 #sgd = SGD(lr=0.0001, decay=1e-6, momentum=0.9, nesterov=True)
 model.compile(loss='binary_crossentropy',
               optimizer='rmsprop',
