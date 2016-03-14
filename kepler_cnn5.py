@@ -6,19 +6,12 @@ from keras.preprocessing import sequence
 from keras.models import Sequential
 from keras.layers.core import Dense, Dropout, Activation, Flatten
 from keras.optimizers import SGD
-#from keras.layers.embeddings import Embedding
 from keras.layers.convolutional import Convolution1D, MaxPooling1D
-#from keras.datasets import imdb
+
 
 
 # set parameters:
-#max_features = 50000
-#maxlen = 100
 batch_size = 16
-#embedding_dims = 100
-#nb_filter = 250
-#filter_length = 3
-#hidden_dims = 250
 input_length=100
 nb_epoch = 5
 
@@ -45,26 +38,10 @@ y_test = pd.read_csv(data_file4, delimiter=',', error_bad_lines=False, header=No
 y_test = y_test.as_matrix()
 print(y_test.shape)
 
-#print(y_train)
-#print(y_test)
-
-#char = input("...")	
-	
-#print('Pad sequences (samples x time)')
-#X_train = sequence.pad_sequences(X_train, maxlen=maxlen)
-#X_test = sequence.pad_sequences(X_test, maxlen=maxlen)
-#print('X_train shape:', X_train.shape)
-#print('X_test shape:', X_test.shape)
-
 print('Build model...')
 model = Sequential()
 
-# we start off with an efficient embedding layer which maps
-# our vocab indices into embedding_dims dimensions
-#model.add(Embedding(max_features, embedding_dims, input_length=maxlen))
-#model.add(Dropout(0.25))
-
-# we add a Convolution1D, which will learn nb_filter
+# we add 5 Convolution1D, which will learn nb_filter
 # word group filters of size filter_length:
 model.add(Convolution1D(nb_filter=96,
                         filter_length=5,
@@ -83,8 +60,6 @@ model.add(Convolution1D(nb_filter=96,
                         filter_length=3,
                         border_mode='valid',
                         activation='relu'))
-                        
-#model.add(MaxPooling1D(pool_length=2))
 
 model.add(Convolution1D(nb_filter=128,
                         filter_length=3,
@@ -99,7 +74,6 @@ model.add(Convolution1D(nb_filter=128,
 model.add(MaxPooling1D(pool_length=2))
 
 # We flatten the output of the conv layer,
-# so that we can add a vanilla dense layer:
 model.add(Flatten())
 
 #two FC layers
@@ -113,7 +87,7 @@ model.add(Activation('relu'))
 # We project onto a single unit output layer, and squash it with a sigmoid:
 model.add(Dense(1)) 
 model.add(Activation('sigmoid'))
-#sgd = SGD(lr=0.0001, decay=1e-6, momentum=0.9, nesterov=True)
+
 model.compile(loss='binary_crossentropy',
               optimizer='rmsprop',
               class_mode='binary')
