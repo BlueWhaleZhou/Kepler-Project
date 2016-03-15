@@ -13,7 +13,7 @@ from keras.layers.convolutional import Convolution1D, MaxPooling1D, ZeroPadding1
 # set parameters:
 batch_size = 16
 input_length=100
-nb_epoch = 5
+nb_epoch = 100
 
 print('Loading data...')
 data_file1 = "/home/qinghai/kepler/0303/x_0314_training_new_2.txt"
