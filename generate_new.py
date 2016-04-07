@@ -2,50 +2,45 @@ import numpy as np
 from random import randint
 from numpy import newaxis
 import random
+
 # Generating periodical data for training
 
-a = np.random.randint(low=10, high=300, size=80)
+a = np.random.randint(low=10, high=400, size=100)
 print(len(a))
 print(len(np.unique(a)))
 sequence_0 = np.zeros(800)
-init_point = int(random.random()*a[0])
-for init_point in range(800):
-	sequence_0[init_point] = sequence_0[init_point] + 1
-	init_point = init_point + a[0]
-for x in range(0, 399):
+init_point0 = int(random.random()*a[0])
+for init_point0 in range(800):
+	sequence_0[init_point0] = sequence_0[init_point0] + 1
+	init_point0 = init_point0 + a[0]
+sequence_0 = sequence_0[newaxis, :]
+for x in range(0, 299):
 	sequence_start = np.zeros(800)
 	y = int(random.random()*a[0])
 	for y in range(800):
 		sequence_start[y] = sequence_start[y] + 1
 		y = y + a[0]
-	sequence_0 = np.concatenate((sequence_0, sequence_start), axis=0)
-sequence_0 = np.reshape(sequence_0, (400, 800))
+	sequence_0 = np.concatenate((sequence_0, sequence_start[newaxis, :]), axis=0)
 print(sequence_0.shape)
-j = 0
+j = 1
 for j in range(1, 80):
-	k = 0
-	for k in range(400):
-		sequence_init = np.zeros(800)
-		i = int(random.random()*a[j])
-		while(i < 800):
-			sequence_init[i] = sequence_init[i] + 1
-        	i = i + a[j]
-		sequence_0 = np.concatenate((sequence_0, sequence_init), axis=0)
+    for k in range(300):
+        sequence_init = np.zeros(800)
+        i = int(random.random()*a[j])
+        while(i < 800):
+            sequence_init[i] = sequence_init[i] + 1
+            i = i + a[j]
+        sequence_init = sequence_init[newaxis, :]
+        sequence_0 = np.concatenate((sequence_0, sequence_init), axis=0)
 print(sequence_0.shape)
-x = input('.')
-#print(sequence_temp)
-print(sequence_temp.shape)
-label_p = np.zeros(32000)
+label_p = np.zeros(30000)
 label_p = label_p + 1
 label_p = label_p[:, newaxis]
-training_p = np.concatenate((sequence_temp, label_p), axis=1)
+training_p = np.concatenate((sequence_0, label_p), axis=1)
 print(training_p.shape)
-#print(training_p)
-#x = input('...')
 np.savetxt('training_p.txt', training_p, delimiter=',', header='')
-#x = input('...')
 
-#Generating while noise(15000x400)
+#Generating while noise
 
 noise = np.zeros(3200000)
 i = randint(1, 300)
@@ -62,36 +57,42 @@ print(training_n.shape)
 #x = input('...')
 np.savetxt('training_n.txt', training_n, delimiter=',')
 
-#Generating slightly different 'non-periodical' data(15000x400)
-b = np.random.randint(low=10, high=300, size=100)
+#Generating slightly different 'non-periodical' data
+b = np.random.randint(low=10, high=400, size=100)
 print(len(b))
 print(len(np.unique(b)))
-print(len(np.unique(np.concatenate((a,b), axis=1))))
-sequence_temp = np.zeros(240000)
-k = int(random.random()*b[0])
-while(k < 240000):
-        sequence_temp[k] = sequence_temp[k] + 1
-        k = k + b[0] + int(random.random()*b[0])
-sequence_temp = np.reshape(sequence_temp, (300, 800))
-print(sequence_temp.shape)
-#print(sequence_temp)
-l = 1
-for l in range(1, 50):
-        m = int(random.random()*b[l])
-        sequence_new = np.zeros(250000)
-        while(i < 250000):
-                sequence_new[m] = sequence_new[m] + 1
-                m = m + b[l] + int(random.random()*b[l])
-        sequence_new = np.reshape(sequence_new, (300, 800))
-        sequence_temp = np.concatenate((sequence_temp, sequence_new), axis=0)
-#print(sequence_temp)
-print(sequence_temp.shape)
+sequence_1 = np.zeros(800)
+init_point1 = int(( 1 + random.random())*b[0])
+for init_point1 in range(800):
+    sequence_1[init_point1] = sequence_1[init_point1] + 1
+    init_point1 = init_point1 + b[0]*int(random.random())
+sequence_1 = sequence_1[newaxis, :]
+for x in range(0, 299):
+    sequence_start = np.zeros(800)
+    y = int(random.random()*b[0])
+    for y in range(800):
+        sequence_start[y] = sequence_start[y] + 1
+        y = y + int(b[0]*(random.random()))
+    sequence_start = sequence_start[newaxis, :]
+    sequence_1 = np.concatenate((sequence_1, sequence_start), axis=0)
+print(sequence_1.shape)
+j = 1
+for j in range(1, 100):
+    k = 0
+    for k in range(300):
+        sequence_init = np.zeros(800)
+        i = int(random.random()*b[j])
+        while(i < 800):
+            sequence_init[i] = sequence_init[i] + 1
+            i = i + int(b[j]*random.random())
+        sequence_init = sequence_init[newaxis, :]
+        sequence_1 = np.concatenate((sequence_1, sequence_init), axis=0)
+print(sequence_1.shape)
 label_s = np.zeros(30000)
 label_s = label_s[:, newaxis]
-training_s = np.concatenate((sequence_temp, label_s), axis=1)
+training_s = np.concatenate((sequence_1, label_s), axis=1)
 print(training_s.shape)
-#print(training_s)
-np.savetxt('training_s.txt', training_s, delimiter=',', header='')
+np.savetxt('training_s.txt', training_p, delimiter=',', header='')
 
 temp_matrix = np.concatenate((training_p, training_n), axis=0)
 matrix = np.concatenate((temp_matrix, training_s), axis=0)
@@ -99,39 +100,87 @@ matrix = np.random.permutation(matrix)
 print(matrix.shape)
 np.savetxt('training.txt', matrix, delimiter=',')
 
-#Generating periodical data with 1 label
+#Generating periodical data for testing with 1 label
 
-c = np.random.randint(low=10, high=400, size=50)
-print(len(a))
-sequence_temp = np.zeros(100000)
-k = int(random.random()*c[0])
-while(k < 100000):
-        sequence_temp[k] = sequence_temp[k] + 1
-        k = k + c[0]
-sequence_temp = np.reshape(sequence_temp, (200, 500))
-print(sequence_temp.shape)
-#print(sequence_temp)
+c = np.random.randint(low=10, high=500, size=90)
+print(len(c))
+print(len(np.unique(c)))
+print(len(np.unique(np.concatenate(a, c))))
+sequence_2 = np.zeros(800)
+init_point2 = int(( 1 + random.random())*c[0])
+for init_point2 in range(800):
+    sequence_2[init_point2] = sequence_2[init_point2] + 1
+    init_point2 = init_point2 + c[0]
+sequence_2 = sequence_2[newaxis, :]
+for x in range(0, 99):
+    sequence_start = np.zeros(800)
+    y = int(random.random()*c[0])
+    for y in range(800):
+        sequence_start[y] = sequence_start[y] + 1
+        y = y + c[0]
+    sequence_start = sequence_start[newaxis, :]
+    sequence_2 = np.concatenate((sequence_2, sequence_start), axis=0)
+print(sequence_2.shape)
 j = 1
-for j in range(1, 50):
+for j in range(1, 100):
+    k = 0
+    for k in range(90):
+        sequence_init = np.zeros(800)
         i = int(random.random()*c[j])
-        sequence_new = np.zeros(100000)
-        while(i < 100000):
-                sequence_new[i] = sequence_new[i] + 1
-                i = i + c[j]
-        sequence_new = np.reshape(sequence_new, (200, 500))
-        sequence_temp = np.concatenate((sequence_temp, sequence_new), axis=0)
-print(sequence_temp)
-print(sequence_temp.shape)
-label_p0 = np.zeros(10000)
-label_p0 = label_p0 + 1
+        while(i < 800):
+            sequence_init[i] = sequence_init[i] + 1
+            i = i + c[j]
+        sequence_init = sequence_init[newaxis, :]
+        sequence_2 = np.concatenate((sequence_2, sequence_init), axis=0)
+print(sequence_2.shape)
+label_p1 = np.zeros(9000)
+label_p1 = label_p1 + 1
+label_p1 = label_p1[:, newaxis]
+testing_p1 = np.concatenate((sequence_2, label_p1), axis=1)
+print(testing_p1.shape)
+np.savetxt('testing_p1.txt', testing_p1, delimiter=',', header='')
+
+#Generating slightly different periodical data for testing label=0
+
+d = np.random.randint(low=10, high=500, size=80)
+print(len(d))
+print(len(np.unique(d)))
+print(len(np.unique(np.concatenate(b, d))))
+sequence_3 = np.zeros(800)
+init_point3 = int(random.random()*d[0])
+for init_point3 in range(800):
+    sequence_3[init_point3] = sequence_3[init_point3] + 1
+    init_point3 = init_point3 + b[0]*int(random.random())
+sequence_3 = sequence_3[newaxis, :]
+for x in range(0, 99):
+    sequence_start = np.zeros(800)
+    y = int(random.random()*d[0])
+    for y in range(800):
+        sequence_start[y] = sequence_start[y] + 1
+        y = y + int(d[0]*(random.random()))
+    sequence_start = sequence_start[newaxis, :]
+    sequence_3 = np.concatenate((sequence_3, sequence_start), axis=0)
+print(sequence_3.shape)
+j = 1
+for j in range(1, 100):
+    k = 0
+    for k in range(80):
+        sequence_init = np.zeros(800)
+        i = int(random.random()*d[j])
+        while(i < 800):
+            sequence_init[i] = sequence_init[i] + 1
+            i = i + int(d[j]*random.random())
+        sequence_init = sequence_init[newaxis, :]
+        sequence_3 = np.concatenate((sequence_3, sequence_init), axis=0)
+print(sequence_3.shape)
+label_p0 = np.zeros(8000)
+label_p0= label_p0
 label_p0 = label_p0[:, newaxis]
-training_p0 = np.concatenate((sequence_temp, label_p0), axis=1)
-print(training_p0.shape)
-#print(training_p0)
-#x = input('...')
-np.savetxt('training_p0.txt', training_p0, delimiter=',', header='')
-#x = input('...')
-testing = np.concatenate((matrix[50000:70000, :], training_p0), axis=0)
+testing_p0 = np.concatenate((sequence_3, label_p0), axis=1)
+print(testing_p0.shape)
+
+testing_temp = np.concatenate((matrix[50000:64000, :], testing_p1), axis=0)
+testing = np.concatenate((testing_temp, testing_p0), axis=0)
 testing = np.random.permutation(testing)
 print(testing.shape)
 print(testing)
