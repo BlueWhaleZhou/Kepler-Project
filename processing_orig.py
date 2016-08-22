@@ -32,7 +32,6 @@ def loaddata():
 		name_tmp = filename[dir_len:].split('_')
 		star_name = name_tmp[0]
 		print star_name
-		input('break...')
 		num_tmp = int(name_tmp[1][1:3])
 		if star_name in star:
 			star[star_name] = max(star[star_name], num_tmp)
