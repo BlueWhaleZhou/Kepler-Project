@@ -33,6 +33,7 @@ def loaddata():
         star_name = name_tmp[0]
         print star_name
         num_tmp = int(name_tmp[1][1:3])
+        print num_tmp
         if star_name in star:
             star[star_name] = max(star[star_name], num_tmp)
         else:
