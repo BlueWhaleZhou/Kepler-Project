@@ -1,4 +1,4 @@
-#combinning: all *.fits data
+#processing kepler original data
 from astropy.io import fits
 import numpy as np
 import matplotlib.pyplot as plt
@@ -7,7 +7,7 @@ import glob
 import math
 
 def loaddata():
-	path1='/home/qinghai/kepler/kepler_0021_orig/'
+    path1='/home/qinghai/kepler/kepler_0021_orig/'
 
 	step = 20
 	name1 = []
@@ -25,7 +25,7 @@ def loaddata():
 		length = len(time)
 		summ = summ + int(math.floor(len(time)/step)-1)
 	print (summ)
-#	x = input('...')
+
 #loading data into matrix
 	for filename in glob.glob(os.path.join(path1, '*.fits')):
 		dir_len = len(path1)
@@ -52,7 +52,7 @@ def loaddata():
 				file_name = key+"_q"+str(i)+'.fits'
 			else:
 				file_name = key+"_q0"+str(i)+'.fits'
-			data2 = fits.getdata('/home/qinghai/0021_superEarths/243days/'+file_name)
+			data2 = fits.getdata('/home/qinghai/kepler/kepler_0021_orig/'+file_name)
 			time.extend(data2[0])
 			flux.extend(data2[1])
 		initialtime = time[0] + period
@@ -60,24 +60,24 @@ def loaddata():
 		t = 0
 		transits = []
 		while(k < time[-1]):
-			k = initialtime+t*period
+			k = initialtime + t * period
 			transits.append(k)
 			t = t + 1
 		initial = 0
-		for j in range(int(math.floor(len(time)/step)-1)):
-			fluxtem = flux[initial:initial+step]
-			timetem = time[initial:initial+step]
+		for j in range(int(math.floor(len(time) / step) - 1)):
+			fluxtem = flux[initial:initial + step]
+			timetem = time[initial:initial + step]
 #			plt.plot(timetem, fluxtem)
 #			plt.show()
 			trainy[j+index] = 0
 			for m in range(len(transits)):
 				if(time[initial] < transits[m] and transits[m] < time[initial + step]):
-					trainy[j+index] = 1
+					trainy[j + index] = 1
 #			print trainy[j+index]
-			trainx[:, j+index] = fluxtem
+			trainx[:, j + index] = fluxtem
 			initial = initial + step
 		index = index + int(math.floor(len(time)/step)-1)
-	print j+index
+	print j + index
 	p = 'x_superEarth_243days.txt'
 	q = 'y_superEarth_243days.txt'
 	np.savetxt(p, trainx, delimiter=',')
