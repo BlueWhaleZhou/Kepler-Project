@@ -6,7 +6,7 @@ import pandas as pd
 #generate time, flux, star_name in order
 name = []
 star_list = []
-
+path_flux = '/home/qinghai/testing/flux/'
 for filename in glob.glob(os.path.join(path_flux, '*.txt')):
     dir_len = len(path_flux)
     name_tmp = filename[dir_len:].split('_')
@@ -20,11 +20,11 @@ print name
 filepath_time_temp = '/home/qinghai/testing/time/' + name[0] + '_time.txt'
 time_matrix = np.loadtxt(filepath_time_temp, delimiter=',')
 filepath_flux_temp = '/home/qinghai/testing/flux/' + name[0] + '_flux.txt'
-flux_matrix = np.loadtxt(filepath_time_temp, delimiter=',')
-
+flux_matrix = np.loadtxt(filepath_flux_temp, delimiter=',')
+index = 0
 while(index < len(flux_matrix))
     star_list.append(name[0])
-
+    index = index + 1
 i = 1
 while i < len(name):
     filepath_time_temp = '/home/qinghai/testing/time/' + name[i] + '_time.txt'
