@@ -33,7 +33,7 @@ while i < len(name):
     i = i + 1
 print time_matrix.shape
 print flux_matrix.shape
-flux_dataframe = pd.DataFrame(data=flux_matrix)
+flux_dataframe = DataFrame(data=flux_matrix)
 flux_dataframe_mean = flux_dataframe.mean(axis=1)
 flux_dataframe = flux_dataframe.fillna(flux_dataframe_mean, axis=1)
 flux_matrix_norm = preprocessing.normalize(flux_matrix, norm=l2, axis=1, copy=True)
