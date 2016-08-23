@@ -46,7 +46,7 @@ def processingoriginal():
             time.extend(data2[0])
             flux.extend(data2[1])
         rows = len(time) / step
-        print rows
+#        print rows
         new_length = rows * step
         time = time[:new_length]
         flux = flux[:new_length]
@@ -59,5 +59,4 @@ def processingoriginal():
 #        input('break1...')
         np.savetxt(key + '_time.txt', time_matrix, delimiter = ',')
         np.savetxt(key + '_flux.txt', flux_matrix, delimiter = ',')
-        input('break2...')
 processingoriginal()
