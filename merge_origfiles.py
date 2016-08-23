@@ -38,7 +38,7 @@ flux_matrix_T_dataframe = pd.DataFrame(flux_matrix_T)
 flux_dataframe_mean = flux_matrix_T_dataframe.mean(axis=0)
 flux_dataframe = flux_matrix_T_dataframe.fillna(flux_dataframe_mean, axis=0)
 flux_dataframe = flux_matrix_T_dataframe.fillna(0, axis=0)
-flux_matrix_norm = preprocessing.normalize(flux_dataframe, norm=l2, axis=0, copy=True)
+flux_matrix_norm = preprocessing.normalize(flux_dataframe, norm='l2', axis=0, copy=True)
 flux_matrix_f = (flux_matrix_norm - 0.2236) * 1000000
 flux_matrix_f = flux_matrix_f.transpose()
 print flux_matrix_f.shape
