@@ -15,6 +15,8 @@ for filename in glob.glob(os.path.join(path_flux, '*.txt')):
 
 print name
 
+np.savetxt('/home/qinghai/testing/star_list.txt', name, delimiter=',')
+
 #concatenate all time and flux files
 filepath_time_temp = '/home/qinghai/testing/time/' + name[0] + '_time.txt'
 time_matrix = np.loadtxt(filepath_time_temp, delimiter=',')
@@ -29,6 +31,9 @@ while i < len(name):
     time_matrix = np.concatenate((time_matrix, time_matrix_tmp), axis=0)
     flux_matrix = np.concatenate((flux_matrix, flux_matrix_tmp), axis=0)
     i = i + 1
+
+length = len(flux_matrix)
+
 print time_matrix.shape
 print flux_matrix.shape
 
@@ -40,7 +45,9 @@ flux_dataframe = flux_matrix_T_dataframe.fillna(flux_dataframe_mean, axis=0)
 flux_dataframe = flux_matrix_T_dataframe.fillna(0, axis=0)
 flux_matrix_norm = preprocessing.normalize(flux_dataframe, norm='l2', axis=0, copy=True)
 flux_matrix_f = (flux_matrix_norm - 0.2236) * 1000000
+flux_matrix_f = preprocessing.normalize(flux_matrix_f, norm='l2', axis=0, copy=True)
 flux_matrix_f = flux_matrix_f.transpose()
+flux_matrix_f = flux_matrix_f * 10
 print flux_matrix_f.shape
 print flux_matrix_f
 
