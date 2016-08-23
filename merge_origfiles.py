@@ -31,8 +31,8 @@ while i < len(name):
     time_matrix = np.concatenate((time_matrix, time_matrix_tmp), axis=0)
     flux_matrix = np.concatenate((flux_matrix, flux_matrix_tmp), axis=0)
     i = i + 1
-print time_matrix.shape
-print flux_matrix.shape
+#print time_matrix.shape
+#print flux_matrix.shape
 
 np.savetxt('kepler_orig_testing_i.txt', flux_matrix, delimiter=',')
 flux_file = 'kepler_orig_testing_i.txt'
