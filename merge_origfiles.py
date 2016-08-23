@@ -33,14 +33,17 @@ while i < len(name):
     i = i + 1
 print time_matrix.shape
 print flux_matrix.shape
-flux_dataframe = DataFrame(data=flux_matrix)
+
+np.savetxt('kepler_orig_testing_i.txt', flux_matrix, delimiter=',')
+flux_file = 'kepler_orig_testing_i.txt'
+flux_dataframe = pd.read_csv(flux_file, delimiter=',', header=None, error_bad_lines=False)
 flux_dataframe_mean = flux_dataframe.mean(axis=1)
 flux_dataframe = flux_dataframe.fillna(flux_dataframe_mean, axis=1)
-flux_matrix_norm = preprocessing.normalize(flux_matrix, norm=l2, axis=1, copy=True)
-print flux_matrix_norm.shape
+flux_dataframe = flux_dataframe.fillna(0, axis=1)
+flux_matrix_norm = preprocessing.normalize(flux_dataframe, norm=l2, axis=1, copy=True)
 flux_matrix_f = (flux_matrix_norm - 0.2236) * 1000000
 flux_matrix_f = flux_matrix_f.as_matrix()
 print flux_matrix_f.shape
 print flux_matrix_f
 
-np.savetxt('kepler_orig_testing_0822.txt', flux_matrix_f, delimiter=',')
+np.savetxt('kepler_orig_testing_f.txt', flux_matrix_f, delimiter=',')
