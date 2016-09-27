@@ -58,7 +58,7 @@ model.add(Dense(nb_classes))
 model.add(Activation('softmax'))
 
 model.compile(loss='categorical_crossentropy', optimizer='adadelta',metrics=['accuracy'])
-model.fit(X_train, Y_train, batch_size=batch_size, nb_epoch=nb_epoch, verbose=1, validation_data=(X_test, Y_test))
+model.fit(X_train, Y_train, batch_size=batch_size, nb_epoch=nb_epoch, verbose=1)
 
 Y_prediction = model.predict_classes(X_test, batch_size=batch_size, verbose=1)
 pd.Dataframe({"ImageId": range(1, len(Y_test) + 1), "Label": Y_prediction}).to_csv('out.csv', index=False, header=True)
