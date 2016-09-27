@@ -62,38 +62,6 @@ model.add(Convolution1D(nb_filter=128,
                         filter_length=3,
                         border_mode='valid',
                         activation='relu'))
-                    
-#model.add(Convolution1D(nb_filter=128,
-#						filter_length=3,
-#						border_mode='valid',
-#                      activation='relu'))
-
-#model.add(Convolution1D(nb_filter=128,
-#                       filter_length=3,
-#                       border_mode='valid',
-#                      activation='relu'))
-
-#model.add(Convolution1D(nb_filter=128,
-            #            filter_length=3,
-             #           border_mode='valid',
-              #          activation='relu'))
-
-#model.add(Convolution1D(nb_filter=128,
-#                        filter_length=3,
-#                        border_mode='valid',
-#                        activation='relu'))
-
-#model.add(Convolution1D(nb_filter=128,
-#                        filter_length=3,
-#                        border_mode='valid',
-#                        activation='relu'))
-
-#model.add(Convolution1D(nb_filter=128,
-#                        filter_length=3,
-#                       border_mode='valid',
-#                       activation='relu'))
-
-#model.add(MaxPooling1D(pool_length=2))
 
 #flatten the output of the conv layer
 model.add(Flatten())
