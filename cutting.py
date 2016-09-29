@@ -8,36 +8,35 @@ import math
 
 def loaddata():
 	path1='/home/qinghai/kepler/kepler_0021_orig/'
-
 	step = 20
-	name1 = []
+	name = []
 #	period = 243
 	star = dict()
-
+'''
 #length estimation
 	for filename in glob.glob(os.path.join(path1,'*.fits')):
-		name1.append(filename)
-	print name1
+		name.append(filename)
+	print name
 	summ = 0
-	for i in range(len(name1)):
-		data1 = fits.getdata(name1[i])
+	for i in range(len(name)):
+		data1 = fits.getdata(name[i])
 		time = data1[0]
 		length = len(time)
 		summ = summ + int(math.floor(len(time)/step)-1)
 	print (summ)
-#	x = input('...')
+'''
 #loading data into matrix
 	for filename in glob.glob(os.path.join(path1, '*.fits')):
 		dir_len = len(path1)
 		name_tmp = filename[dir_len:].split('_')
 		star_name = name_tmp[0]
 		print star_name
-		input('break...')
 		num_tmp = int(name_tmp[1][1:3])
 		if star_name in star:
 			star[star_name] = max(star[star_name], num_tmp)
 		else:
 			star[star_name] = num_tmp
+
 	s = (step, 200000)
 	trainx = np.zeros(s)
 	trainy = np.zeros(295167)
@@ -87,9 +86,9 @@ def loaddata():
 	s=(100,31982)
 	trainx=np.zeros(s)
 	trainy=np.zeros()
-	for i in range(len(name1)):
-		data = fits.getdata(name1[i])
-		print (name1[i], i, i/len(name1))
+	for i in range(len(name)):
+		data = fits.getdata(name[i])
+		print (name[i], i, i/len(name))
 		time=data[0]
 		flux=data[1]
 		initialtime = time[0]
@@ -109,7 +108,7 @@ def loaddata():
 			plt.plot(timetemp,fluxtemp)
 			for m in range(len(transits)):
 				if(time[initial]<transits[m] and transits[m]<time[initial+step]):
-                    			trainy[j+index] = 0
+								trainy[j+index] = 0
 			print(trainy[j+index])
 			plt.show()
 			#char = input("please stop")
