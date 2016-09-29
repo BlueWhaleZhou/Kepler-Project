@@ -58,13 +58,19 @@ def processingsuperEarth():
         print position
         print len(position)
 
-        Y_train = np.zeros(rows)
-
         flux = flux[:new_length]
         time_matrix = np.reshape(time, (rows, step))
         flux_matrix = np.reshape(flux, (rows, step))
 
-#       print time_matrix
+        Y_train = np.zeros(rows)
+        for i in range((len(time_matrix))):
+            for j in range(len(position)):
+                if(time_matrix[i][0] <= position[j] and position[j] <= time_matrix[i][-1])
+                    Y_train[i] += 1
+                    break
+        print Y_train
+        print
+        #print time_matrix
 #       print flux_matrix
         print time_matrix.shape
         print flux_matrix.shape
