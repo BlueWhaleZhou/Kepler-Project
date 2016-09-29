@@ -39,15 +39,15 @@ Y_train = np_utils.to_categorical(Y_train, nb_classes)
 
 #model
 model = Sequential()
-model.add(Convolution2D(nb_filters=nb_filters, kernel_size[0], kernel_size[1], border_mode='valid', input_shape = input_shape))
+model.add(Convolution2D(nb_filters, kernel_size[0], kernel_size[1], border_mode='valid', input_shape = input_shape))
 model.add(Activation('relu'))
-model.add(Convolution2D(nb_filters=nb_filters, kernel_size[0], kernel_size[1]))
+model.add(Convolution2D(nb_filters, kernel_size[0], kernel_size[1]))
 model.add(Activation('relu'))
-model.add(MaxPooling2D(pool_size=pooling_size))
+model.add(AveragePooling2D(pool_size=pooling_size))
 model.add(Dropout)
-model.add(Convolution2D(nb_filters=nb_filters, kernel_size[0], kernel_size[1]))
+model.add(Convolution2D(nb_filters, kernel_size[0], kernel_size[1]))
 model.add(Activation('relu'))
-model.add(Convolution2D(nb_filters=nb_filters, kernel_size[0], kernel_size[1]))
+model.add(Convolution2D(nb_filters, kernel_size[0], kernel_size[1]))
 model.add(Activation('relu'))
 
 model.add(Flatten())
@@ -61,4 +61,4 @@ model.compile(loss='categorical_crossentropy', optimizer='adadelta',metrics=['ac
 model.fit(X_train, Y_train, batch_size=batch_size, nb_epoch=nb_epoch, verbose=1)
 
 Y_prediction = model.predict_classes(X_test, batch_size=batch_size, verbose=1)
-pd.Dataframe({"ImageId": range(1, len(Y_test) + 1), "Label": Y_prediction}).to_csv('out.csv', index=False, header=True)
+pd.DataFrame({"ImageId": range(1, len(Y_prediction) + 1), "Label": Y_prediction}).to_csv('out.csv', index=False, header=True)
