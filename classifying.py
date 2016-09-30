@@ -1,6 +1,7 @@
 import pandas as pd
 import numpy as np
 import shutil
+import os
 import glob
 source = '/home/qinghai/research/kepler/0021_superEarths/'
 target = '/home/qinghai/research/kepler/'
