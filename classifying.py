@@ -13,4 +13,4 @@ for i in range(len(info)):
     star_id = '00' + str(int(info.values[i][0]))
     period = str(int(info.values[i][1]))
     for filename in glob.glob(os.path.join(source, star_id + '*.fits')):
-        shutil.copyfile(filename, target + period + 'days/')
+        shutil.copy(filename, target + period + 'days/')
