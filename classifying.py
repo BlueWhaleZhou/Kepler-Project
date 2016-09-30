@@ -6,7 +6,6 @@ source = '/home/qinghai/research/kepler/0021_superEarths/'
 target = '/home/qinghai/research/kepler/'
 
 info = pd.read_csv('/home/qinghai/research/kepler/0021_superEarths_info.csv')
-info = info.drop(info.index[51])
 print info
 
 for i in range(len(info)):
