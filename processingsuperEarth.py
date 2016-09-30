@@ -24,7 +24,6 @@ def processingsuperEarth():
         else:
             star[star_name] = num_tmp
     print star
-
 #extracting time and flux sequences
     for key in star:
         print key
