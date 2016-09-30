@@ -50,11 +50,9 @@ def processingsuperEarth():
             position.append(time_tmp)
         print position
         print len(position)
-
         flux = flux[:new_length]
         time_matrix = np.reshape(time, (rows, step))
         flux_matrix = np.reshape(flux, (rows, step))
-
         labels = np.zeros(rows)
         for i in range((len(time_matrix))):
             for j in range(len(position)):
