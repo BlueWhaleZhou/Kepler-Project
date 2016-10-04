@@ -1,10 +1,9 @@
 #processing kepler original data
 from astropy.io import fits
 import numpy as np
-import matplotlib.pyplot as plt
 import os
 import glob
-import math
+
 
 def processingoriginal():
     path1='/home/qinghai/kepler/kepler_0021_orig/'
