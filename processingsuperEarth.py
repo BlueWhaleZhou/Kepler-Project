@@ -2,10 +2,9 @@
 from astropy.io import fits
 import numpy as np
 from numpy import newaxis
-import matplotlib.pyplot as plt
 import os
 import glob
-import math
+
 
 def processingsuperEarth():
     step = 28
@@ -60,6 +59,6 @@ def processingsuperEarth():
                     break
         labels = labels[:, newaxis]
         print labels.shape
-        final_matrix = np.concatenate(np.concatenate(flux_matrix, labels, axis=1), time_matrix, axis=1)
+        final_matrix = np.concatenate((np.concatenate((flux_matrix, labels), axis=1), time_matrix), axis=1)
         np.savetxt(key + '.txt', final_matrix, delimiter = ',')
 processingsuperEarth()
