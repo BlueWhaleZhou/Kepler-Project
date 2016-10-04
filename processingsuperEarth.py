@@ -10,7 +10,7 @@ import math
 def processingsuperEarth():
     step = 28
     star = dict()
-    period = 3
+    period = 243
     path='/home/qinghai/research/kepler/' + str(period) + 'days/'
 
 #sorting in star names
@@ -23,7 +23,6 @@ def processingsuperEarth():
             star[star_name] = max(star[star_name], num_tmp)
         else:
             star[star_name] = num_tmp
-    print star
 #extracting time and flux sequences
     for key in star:
         print key
@@ -47,7 +46,6 @@ def processingsuperEarth():
         while (time_tmp < time[-1]):
             time_tmp += period
             position.append(time_tmp)
-        print position
         print len(position)
         flux = flux[:new_length]
         time_matrix = np.reshape(time, (rows, step))
@@ -55,11 +53,12 @@ def processingsuperEarth():
         labels = np.zeros(rows)
         for i in range((len(time_matrix))):
             for j in range(len(position)):
-                if(time_matrix[i][0] <= position[j] and position[j] <= time_matrix[i][-1])
+                if(time_matrix[i][0] <= position[j] and position[j] <= time_matrix[i][-1]):
                     labels[i] = 1
                     break
         labels = labels[:, newaxis]
         print labels.shape
-        final_matrix = np.concatenate(np.concatenate(flux_matrix, labels, axis=1), time_matrix, axis=1)
-        np.savetxt(key + '.txt', final_matrix, delimiter = ',')
+        final_matrix = np.concatenate((np.concatenate((flux_matrix, labels), axis=1), time_matrix), axis=1)
+        print final_matrix.shape
+        np.savetxt('/home/qinghai/research/kepler/' + str(period) + 'days/' + key + '.txt', final_matrix, delimiter = ',')
 processingsuperEarth()
