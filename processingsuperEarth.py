@@ -7,7 +7,7 @@ import glob
 
 
 def processingsuperEarth():
-    step = 28
+    step = 36
     star = dict()
     period = 243
     path='/home/qinghai/research/kepler/' + str(period) + 'days/'
@@ -58,10 +58,8 @@ def processingsuperEarth():
         labels = labels[:, newaxis]
         print labels.shape
         final_matrix = np.concatenate((np.concatenate((flux_matrix, labels), axis=1), time_matrix), axis=1)
-<<<<<<< HEAD
+
         print final_matrix.shape
-        np.savetxt('/home/qinghai/research/kepler/' + str(period) + 'days/' + key + '.txt', final_matrix, delimiter = ',')
-=======
-        np.savetxt(key + '.txt', final_matrix, delimiter = ',')
->>>>>>> ba7617c5034ef7189470a1e9231eeb42d0e65a37
+        np.savetxt('/home/qinghai/research/kepler/1005_1/' + str(period) + 'days/' + key + '.txt', final_matrix, delimiter = ',')
+
 processingsuperEarth()
